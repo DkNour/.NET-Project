@@ -1,5 +1,6 @@
 ﻿using projet.Models;
 using System;
+using System.Linq;
 
 namespace projet
 {
@@ -44,7 +45,34 @@ namespace projet
 
                 context.MoviesDb.Add(movie);
                 context.SaveChanges();
+
+                Console.WriteLine("The name of the movie that you want to modify");
+                string modif = Console.ReadLine();
+                var MovieModif = context.MoviesDb.Where(s => s.Name == modif).ToList();
+                if (MovieModif.Count != 0)
+                {
+                    var stdMod = MovieModif.First();
+                    Console.WriteLine("The new Name");
+                    string newName = Console.ReadLine();
+                    stdMod.Name = newName;
+                    context.SaveChanges();
+                }
+                else
+                    Console.WriteLine("Not Found");
+
+
+                Console.WriteLine("The name of the movie that you want to delete");
+                string rmv = Console.ReadLine();
+                var MovieRemv = context.MoviesDb.Where(s => s.Name == rmv).ToList();
+                if (MovieRemv.Count != 0)
+                {
+                    var stdRemv = MovieRemv.First();
+                    context.MoviesDb.Remove(stdRemv);
+                    context.SaveChanges();
+                }
+                else
+                    Console.WriteLine("Not Found");
             }
-            }
+        }
             }
     }
